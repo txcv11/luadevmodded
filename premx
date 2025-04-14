@@ -1,0 +1,455 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/newmenu'))()
+
+local pastebinURL = "https://pastebin.com/raw/cRRWdZy3" -- Kendi Pastebin raw linkini koy
+
+local player = game.Players.LocalPlayer
+local userID = player.UserId
+local AllowedKeys = {}
+local expiryTime = 0 -- GLOBAL olarak tanımlandı
+
+-- Pastebin'den keyleri çek
+local success, result = pcall(function()
+    return game:HttpGet(pastebinURL)
+end)
+
+if success and result then
+    for line in result:gmatch("[^\r\n]+") do
+        local id, key, duration, startTime = line:match("(%d+):(.+):(%d+):(%d+)")
+        if id and key and duration and startTime then
+            local tempExpiryTime = tonumber(startTime) + tonumber(duration) -- Geçici expiry
+            local currentTime = os.time() -- Mevcut zaman
+
+            if tempExpiryTime > currentTime then
+                AllowedKeys[tonumber(id)] = key
+                if tonumber(id) == userID then
+                    expiryTime = tempExpiryTime -- Kullanıcıya ait expiryTime
+                end
+            end
+        end
+    end
+else
+    warn("An error occurred while fetching the keys from Pastebin.")
+end
+
+local UserKey = AllowedKeys[userID]
+
+if UserKey then
+    print("Success! Player ID " .. userID .. " Valid key for: " .. UserKey)
+else
+    print("The key has expired or is invalid! Player ID" .. userID .. " There is no valid key for")
+end
+
+local KeySystemEnabled = UserKey ~= nil
+
+if KeySystemEnabled then
+    local Window = Rayfield:CreateWindow({
+        Name = "SPTS MODDED PremiumX👿",
+        Icon = "atom",
+        LoadingTitle = "PremiumX👿",
+        LoadingSubtitle = "By LU4DEV",
+        Theme = "Dark",
+        DisableRayfieldPrompts = false,
+        DisableBuildWarnings = false,
+
+        ConfigurationSaving = {
+            Enabled = true,
+            FolderName = nil,
+            FileName = "Big Hub"
+        },
+
+        Discord = {
+            Enabled = true,
+            Invite = "aUdm6zcAhw",
+            RememberJoins = false
+        },
+
+        KeySystem = KeySystemEnabled,
+        KeySettings = {
+            Title = "Keys",
+            Subtitle = "Key System",
+            Note = "The key is personal and sharing is prohibited. Users who share it will permanently lose their premium status.",
+            FileName = "Key",
+            SaveKey = false,
+            GrabKeyFromSite = false,
+            Key = UserKey and {UserKey} or {"INVALID"}
+        }
+    })
+
+    -- 📌 **Key Süresi Sayacı için Label**
+    local KeyTab = Window:CreateTab("Key", 0)
+    local KeySection = KeyTab:CreateSection("Key Status")
+    local TimeLabel = KeyTab:CreateLabel("Key Duration: Calculating...", "clock", Color3.fromRGB(50, 50, 50), false)
+
+    -- ⏳ **Sayaç Fonksiyonu**
+    task.spawn(function()
+        while KeySystemEnabled do
+            local currentTime = os.time()
+            local remainingTime = expiryTime - currentTime
+
+            if remainingTime <= 0 then
+                TimeLabel:Set("Key has expired! ❌")
+                break
+            else
+                local days = math.floor(remainingTime / 86400)
+                local hours = math.floor((remainingTime % 86400) / 3600)
+                local minutes = math.floor((remainingTime % 3600) / 60)
+                local seconds = remainingTime % 60
+
+                local timeText = string.format("Key Duration: %d Days, %d Hours, %d Minutes, %d Seconds", days, hours, minutes, seconds)
+                TimeLabel:Set(timeText)
+            end
+
+            wait(1) -- Her saniye güncellensin
+        end
+    end)
+
+    -- Diğer Tablar
+    local MainTab = Window:CreateTab("👑Main", 0)
+    local FistTab = Window:CreateTab("Fist", 0)
+    local BodyTab = Window:CreateTab("Body", 0)
+    local PsychicTab = Window:CreateTab("Psychic", 0)
+    local MainSection = MainTab:CreateSection("Main")
+    local FistSection = FistTab:CreateSection("Fist")
+    local BodySection = BodyTab:CreateSection("Body")
+    local PsychicSection = PsychicTab:CreateSection("Psychic")
+
+    local MainTab = Window:CreateTab("Just click StackX once.", "atom") -- Title, Image
+
+    local Button = MainTab:CreateButton({
+        Name = "StackX (After opening, reset the character once.)",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/14.04.stackx", true))()
+    })
+    
+    local ScreenGui -- Burada global bir değişken olarak tanımladık
+
+        
+    local Toggle = MainTab:CreateToggle({
+        Name = "New NoLag",
+        CurrentValue = false,
+        Flag = "Toggle1",
+        Callback = function(Value)
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/14.04nolag", true))()
+    })
+
+    local Button = MainTab:CreateButton({
+        Name = "Anti AFK",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/afk14.04", true))()
+        end,
+    })
+            
+    local Button = FistTab:CreateButton({
+        Name = "560Qid Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/asdasdasd/refs/heads/main/ASDASD", true))()
+        end,
+    })
+             local Button = FistTab:CreateButton({
+        Name = "1.8Qid Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS20", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "3Qad Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS19", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "4Td Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS18", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "11Dd Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS17", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "30Ud Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS16", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "55.5Dc Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS15", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "150No Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS14", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "250Oc Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS13", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "500Sp Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS12", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "1Sp Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS11", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "2.55Sx Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS10", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "15Qi Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS9", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "150Qa Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS8", true))()
+        end,
+    })
+                local Button = FistTab:CreateButton({
+        Name = "1Qa Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS7", true))()
+        end,
+    })
+               local Button = FistTab:CreateButton({
+        Name = "10T Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS6", true))()
+        end,
+    })
+               local Button = FistTab:CreateButton({
+        Name = "100B Fist Strength",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/FS5", true))()
+        end,
+    })
+              local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 30Sxd BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/asdasdasd/refs/heads/main/ASDASDFEGHWER", true))()
+        end,
+    })
+                          local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 250Qid BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT28", true))()
+        end,
+    })
+                          local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 2Qid BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT27", true))()
+        end,
+    })
+                          local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 15Qad BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT26", true))()
+        end,
+    })
+                          local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 100Td BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT25", true))()
+        end,
+    })
+                          local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 3Td BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT24", true))()
+        end,
+    })
+                                     local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 5Dd BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT23", true))()
+        end,
+    })
+                                                 local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 300Ud BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT22", true))()
+        end,
+    })
+                                                 local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 1.5Ud BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT21", true))()
+        end,
+    })
+                                                 local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 12Dc BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT20", true))()
+        end,
+    })
+                                                 local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 30No BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT19", true))()
+        end,
+    })
+                                                 local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 2.2No BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT18", true))()
+        end,
+    })
+                                                             local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 10Oc BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT17", true))()
+        end,
+    })
+                                                             local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 500Sp? BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT16", true))()
+        end,
+    })
+                                                             local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 3Sp BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT15", true))()
+        end,
+    })
+                                                             local Button = BodyTab:CreateButton({
+        Name = "Afk Farm: 8Sx BT",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT14", true))()
+        end,
+    })
+                                                                        local Button = BodyTab:CreateButton({
+        Name = "450Qi",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT13", true))()
+        end,
+    })
+                                                                        local Button = BodyTab:CreateButton({
+        Name = "50Qa",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT12", true))()
+        end,
+    })
+                                                                        local Button = BodyTab:CreateButton({
+        Name = "1Qa",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT11", true))()
+        end,
+    })
+ local Button = BodyTab:CreateButton({
+        Name = "10T",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/BT10", true))()
+        end,
+    })
+             local Button = PsychicTab:CreateButton({
+        Name = "444Qid PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/luadevmodded/refs/heads/main/PS", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "1.1Qid PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS19", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "3.3Qad PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS18", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "7.7Td PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS17", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "22.2Dd PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS16", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "55.5Ud PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS15", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "111Dc PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS14", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "444No PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS13", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "1.11No PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS12", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "3.36Oc PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS11", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "11.1Sp PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS10", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "33.3Sx PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS9", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "111Qi PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS8", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "333Qa PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS7", true))()
+        end,
+    })
+                         local Button = PsychicTab:CreateButton({
+        Name = "1Qa PP",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/massthix/testttt/refs/heads/main/PS6", true))()
+        end,
+    })
+    
+end
